@@ -51,7 +51,53 @@ app.get("/get", (req,res)=>{
     })
 })
 
+//AND operator
+app.get("/selectand", (req,res)=>{
+    Employee.findAll( { where: {[Op.and] : [{department : "NodeJS"},{first_name : "Mann"}]}}).then((emloyees)=>{
+        res.send(emloyees);
+    }).catch((err)=>{
+        if(err){    
+            console.log(err);
+        }
+    })
+})
 
+//OR operator
+app.get("/selector", (req,res)=>{
+    Employee.findAll( { where: {[Op.or] : [{department : "NodeJS"},{first_name : "Dhwani"}]}}).then((emloyees)=>{
+        res.send(emloyees);
+    }).catch((err)=>{
+        if(err){    
+            console.log(err);
+        }
+    })
+})
+
+//LIKE operator
+app.get("/selectlike", (req,res)=>{
+    Employee.findAll( { where: {department : {[Op.like]: '%JS'}}}).then((emloyees)=>{
+        res.send(emloyees);
+    }).catch((err)=>{
+        if(err){    
+            console.log(err);
+        }
+    })
+})
+
+//NE Operator
+app.get("/selectne", (req,res)=>{
+    Employee.findAll( { where: {department : {[Op.ne]: 'NodeJS'}}}).then((emloyees)=>{
+        res.send(emloyees);
+    }).catch((err)=>{
+        if(err){    
+            console.log(err);
+        }
+    })
+})
+
+
+
+// GT LT operator
 app.get("/selectemp", (req,res)=>{
 var today = new Date();
 var NOW = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
