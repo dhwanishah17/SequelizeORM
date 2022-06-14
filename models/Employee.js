@@ -23,6 +23,9 @@ primaryKey: true
             allowNull: false,
             unique:true
         },
+        department:{
+            type: DataTypes.STRING,
+        },
         password: {
             type: DataTypes.STRING,
         },

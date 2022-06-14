@@ -8,17 +8,17 @@ const {Department} = require('./models');
 const Op = Sequelize.Op
 
 //fetching employees 
-app.get("/selectemp", (req,res)=>{
-    Employee.findAll({attributes: ['id', 'First_name','department']},{order: [
-        ['first_name', 'ASC'],
-    ]},).then((emloyees)=>{
-        res.send(emloyees);
-    }).catch((err)=>{
-        if(err){
-            console.log(err);
-        }
-    })
-})
+// app.get("/selectemp", (req,res)=>{
+//     Employee.findAll({attributes: ['id', 'First_name','department']},{order: [
+//         ['first_name', 'ASC'],
+//     ]},).then((emloyees)=>{
+//         res.send(emloyees);
+//     }).catch((err)=>{
+//         if(err){
+//             console.log(err);
+//         }
+//     })
+// })
 
 app.get("/insertemp", (req,res)=>{
     Employee.create({
@@ -36,6 +36,36 @@ app.get("/insertemp", (req,res)=>{
         }
     })
     res.send("inserted");
+})
+
+// fetch employees with based on deparment field in ascending order
+app.get("/get", (req,res)=>{
+    Employee.findAll({where : {department : "NodeJS"}},{order: [
+        ['first_name', 'ASC'],
+    ]},).then((emloyees)=>{
+        res.send(emloyees);
+    }).catch((err)=>{
+        if(err){
+            console.log(err);
+        }
+    })
+})
+
+
+app.get("/selectemp", (req,res)=>{
+var today = new Date();
+var NOW = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+    date = "2021-12-13"
+    Employee.findAll({where : {date_of_joining  :{ [Op.gt]: date,
+        [Op.lt]: NOW }}},{order: [
+        ['first_name', 'ASC'],
+    ]},).then((emloyees)=>{
+        res.send(emloyees);
+    }).catch((err)=>{
+        if(err){
+            console.log(err);
+        }
+    })
 })
 
 app.get("/deleteemp", (req,res)=>{  
