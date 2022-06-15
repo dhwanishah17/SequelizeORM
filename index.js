@@ -119,6 +119,17 @@ app.get("/deleteemp", (req,res)=>{
     res.send("deleted");
 })
 
+// one-to-one association
+app.get("/onetoone", (req,res)=>{
+    Employee.findAll({include : [{model: Department}]}).then((emloyees)=>{
+        res.send(emloyees);
+    }).catch((err)=>{
+        if(err){
+            console.log(err);
+        }
+    })
+})
+
 app.get("/select", (req,res)=>{
     Department.findAll()
         .then((department)=>{
@@ -142,12 +153,27 @@ app.get("/insert", (req,res)=>{
     })
     res.send("inserted");
 })
+// one-to-one association
+app.get("/onetoone", (req,res)=>{
+    Department.findAll({where :{ name : "NodeJS"},include : [{model: Employee }]}).then((emloyees)=>{
+        res.send(emloyees);
+    }).catch((err)=>{
+        if(err){
+            console.log(err);
+        }
+    })
+})
 
 app.get("/delete", (req,res)=>{  
     Department.destroy({where : {id : 1}})
     res.send("deleted");
 })
 
+
+db.Employee.hasOne(db.Department );
+db.Department.belongsTo(db.Employee,{foreignKey:{
+    allopwNull: false
+}});
 
 app.use(express.json());
 
