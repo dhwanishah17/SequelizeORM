@@ -6,6 +6,24 @@ const db = require("./models");
 const {Employee, Sequelize} = require('./models');
 const {Department} = require('./models');
 const Op = Sequelize.Op
+const { QueryTypes } = require('sequelize');
+// Raw-Queries
+app.get("/raw-query", async(req,res)=>{
+    await db.sequelize.query(
+        'SELECT * FROM Employees WHERE last_name = ?',
+        {
+          replacements: ['Shah'],
+          type: QueryTypes.SELECT
+        }
+      ).then((emloyees)=>{
+        res.send(emloyees);
+        console.log(emloyees);
+    }).catch((err)=>{
+        if(err){
+            console.log(err);
+        }
+    })
+})
 
 //fetching employees 
 // app.get("/selectemp", (req,res)=>{
